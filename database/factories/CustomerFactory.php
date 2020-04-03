@@ -5,13 +5,16 @@
 use App\Customer;
 use App\User;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Hash;
 
 $factory->define(Customer::class, function (Faker $faker) {
+    $cpf_cnpj = rand(0,2) > 1? $faker->cpf(false) : $faker->cnpj(false);
     return [
-        'user_id' => User::inRandomOrder()->first()->id,
+        'user_id' =>User::inRandomOrder()->first()->id,
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'cpf_cnpj' => $faker->cnpj(false),
-        'rg_ie' => '277432285'
+        'company' => $faker->company,
+        'cpf_cnpj' => $cpf_cnpj,
+        'email' => $faker->unique()->safeEmail(),
+        'password' => Hash::make('123456'),
     ];
 });
